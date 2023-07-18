@@ -18,34 +18,95 @@ This lab focuses on the critical task of False Positive Analysis in the context 
 
 <h2>Program walk-through:</h2>
 
+First, we need to download the source code of the project from our git repository: <br/>
+
+git clone https://gitlab.practical-devsecops.training/pdso/dvpa-api
+<br/>
+ 
 <p align="center">
-Launch the utility: <br/>
-<img src="https://i.imgur.com/62TgaWL.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
-<br />
-<br />
-Select the disk:  <br/>
-<img src="https://i.imgur.com/tcTyMUE.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
-<br />
-<br />
-Enter the number of passes: <br/>
-<img src="https://i.imgur.com/nCIbXbg.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
-<br />
-<br />
-Confirm your selection:  <br/>
-<img src="https://i.imgur.com/cdFHBiU.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
-<br />
-<br />
-Wait for process to complete (may take some time):  <br/>
-<img src="https://i.imgur.com/JL945Ga.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
-<br />
-<br />
-Sanitization complete:  <br/>
-<img src="https://i.imgur.com/K71yaM2.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
-<br />
-<br />
-Observe the wiped disk:  <br/>
-<img src="https://i.imgur.com/AeZkvFQ.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
+<img src="https://i.imgur.com/e0Fkzub.png" height="80%" width="80%" alt="Disk Sanitization Step"/>
 </p>
+
+<br />
+<br />
+
+Let’s cd into the application so we can scan the app: <br/>
+
+cd dvpa-api
+<br/>
+ 
+<p align="center">
+<img src="https://i.imgur.com/832JuF9.png" height="80%" width="80%" alt="Disk Sanitization Step"/>
+</p>
+
+<br />
+<br />
+
+Let’s install the bandit scanner on the system to perform static analysis: <br/>
+
+pip3 install bandit==1.7.4
+<br/>
+ 
+<p align="center">
+<img src="https://i.imgur.com/oPSQJ46.png" height="80%" width="80%" alt="Disk Sanitization Step"/>
+</p>
+
+<br />
+<br />
+
+
+We have successfully installed Bandit scanner. Let’s explore the functionality it provides us: <br/>
+
+bandit --help
+<br/>
+ 
+<p align="center">
+<img src="https://i.imgur.com/OdVpjcq.png" height="80%" width="80%" alt="Disk Sanitization Step"/>
+</p>
+
+<br />
+<br />
+
+Let’s scan our source code by executing the following command: <br/>
+
+bandit -r .
+<br/>
+ 
+<p align="center">
+<img src="https://i.imgur.com/iuWZlso.png" height="80%" width="80%" alt="Disk Sanitization Step"/>
+</p>
+
+<br />
+<br />
+
+Analyse the results and mark relevant issues as False Positive & Use Bandit feature to perform False Positive as Code. First we need to modify bandit.baseline.json: <br/>
+
+bandit -r . -f json | tee baseline.json
+vi baseline.json
+<br/>
+ 
+<p align="center">
+<img src="https://i.imgur.com/a7RVM3x.png" height="80%" width="80%" alt="Disk Sanitization Step"/>
+ <img src="https://i.imgur.com/YDGPmny.png" height="80%" width="80%" alt="Disk Sanitization Step"/>
+</p>
+
+<br />
+<br />
+
+Delete Not False Positivesand run bandit again: <br/>
+
+bandit -r . -f json -o bandit-output.json -b baseline.json
+<br/>
+ 
+<p align="center">
+<img src="https://i.imgur.com/sKM7wKn.png" height="80%" width="80%" alt="Disk Sanitization Step"/>
+</p>
+
+<br />
+<br />
+
+
+
 
 <!--
  ```diff
